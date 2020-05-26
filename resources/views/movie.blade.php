@@ -1,5 +1,9 @@
 @extends('layouts.frame')
 
+@section('meta')
+	<meta name="csrf-token" content="{{ csrf_token() }}">
+@endsection
+
 @section('title')
     {{$movie->title}}
 @endsection
@@ -82,8 +86,16 @@
 
 						<!-- Fallback for browsers that don't support the <video> element -->
                     </video>
-                    <br>
-                    <a href="{{$movie->video}}" download="{{$movie->title}}.mp4">Preuzmi</a>
+					<br>
+					@if ($movie->premium!==null)
+						<a style="color:green;" href="{{$movie->video}}" download="{{$movie->title}}.mp4"><i class="icon ion-md-download"></i> Preuzmi</a>
+						<span style="color: white;">|</span>
+						<a id="play" data-id="{{$movie->id}}" style="color: yellow;" href="{{$movie->video}}" download="{{$movie->title}}.mp4"><i class="icon ion-md-add"></i> Dodaj na plejlistu</a>
+						<span style="color: white;">|</span>
+					@endif
+					@auth
+						<a id="wrong" data-id="{{$movie->id}}" style="color: red;" href=""><i class="icon ion-md-flag"></i> Prijavi problem</a>
+					@endauth
 				</div>
 				<!-- end player -->
 
@@ -140,9 +152,11 @@
 								<a class="nav-link active" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Komentari</a>
 							</li>
 
-							<li class="nav-item">
-								<a class="nav-link" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Recenzije</a>
-							</li>
+							@if ($movie->premium!==null)
+								<li class="nav-item">
+									<a class="nav-link" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Recenzije</a>
+								</li>
+							@endif
 						</ul>
 						<!-- end content tabs nav -->
 
@@ -162,44 +176,39 @@
 								<div class="col-12">
 									<div class="comments">
 										<ul class="comments__list">
-											<li class="comments__item">
-												<div class="comments__autor">
-													<img class="comments__avatar" src="{{asset('img/user.png')}}" alt="">
-													<span class="comments__name">John Doe</span>
-													<span class="comments__time">30.08.2018, 17:53</span>
-												</div>
-												<p class="comments__text">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
-												<div class="comments__actions">
-													<div class="comments__rate">
-														<button type="button"><i class="icon ion-md-thumbs-up"></i>12</button>
-
-														<button type="button">7<i class="icon ion-md-thumbs-down"></i></button>
-													</div>
-												</div>
-											</li>
 											@foreach ($movie->comments as $c)
-												
-											@endforeach
-											<li class="comments__item">
-												<div class="comments__autor">
-													@foreach ($c->user as $user)
-														<img class="comments__avatar" src="{{$user->picture}}" alt="">
-														<span class="comments__name">{{$user->name}}</span>
-														<span class="comments__time">{{$c->created_at}}</span>
-													@endforeach
-												</div>
-												<p class="comments__text">{{$c->text}}</p>
-												<div class="comments__actions">
-													<div class="comments__rate">
-														<button type="button"><i class="icon ion-md-thumbs-up"></i>{{$c->likes}}</button>
-
-														<button type="button">{{$c->disslikes}}<i class="icon ion-md-thumbs-down"></i></button>
+												<li class="comments__item">
+													<div class="comments__autor">
+														@foreach ($c->user as $user)
+															@if ($user->picture!==null)
+																<img class="comments__avatar" src="{{asset($user->picture)}}" alt="">
+															@else
+																<img class="comments__avatar" src="{{asset(img/user-img.png)}}" alt="">
+															@endif
+															<span class="comments__name">{{$user->name}}</span>
+															<span class="comments__time">{{$c->created_at}}</span>
+														@endforeach
 													</div>
+													<p class="comments__text">{{$c->text}}</p>
+													<div class="comments__actions">
+														<div class="comments__rate">
+															@guest
+																<button type="button"><i class="icon ion-md-thumbs-up"></i>{{$c->likes}}</button>
+																<button type="button">{{$c->disslikes}}<i class="icon ion-md-thumbs-down"></i></button>
+															@endguest
+															@auth
+																<button class="pr" type="button"><i class="like icon ion-md-thumbs-up" data-movie="{{$movie->id}}" data-comm="{{$c->id}}" data-num="{{$c->likes}}"></i><span class="numb">{{$c->likes}}</span></button>
+																<button class="dr" type="button" ><span class="numb">{{$c->disslikes}}</span><i class="unlike icon ion-md-thumbs-down" data-movie="{{$movie->id}}" data-comm="{{$c->id}}" data-num="{{$c->disslikes}}"></i></button>
+															@endauth
+														</div>
+														@auth
+															<a class="prkom" style="color: red; font-size: 14px;" href="" data-comm="{{$c->id}}"><i class="icon ion-md-flag"></i> Prijavi komentar</a>
+														@endauth
 
-													{{--<button type="button"><i class="icon ion-ios-share-alt"></i>Reply</button>
-													<button type="button"><i class="icon ion-ios-quote"></i>Quote</button>--}}
-												</div>
-											</li>
+														<button type="button">
+													</div>
+												</li>	
+											@endforeach
 										</ul>
 										@auth
 											<form action="{{url('/movie/comment')}}" method="POST" class="form">
@@ -221,26 +230,37 @@
 								<div class="col-12">
 									<div class="reviews">
 										<ul class="reviews__list">
-											<li class="reviews__item">
-												<div class="reviews__autor">
-													<img class="reviews__avatar" src="{{asset('img/user.png')}}" alt="">
-													<span class="reviews__name">Best Marvel movie in my opinion</span>
-													<span class="reviews__time">24.08.2018, 17:53 by John Doe</span>
-
-													<span class="reviews__rating"><i class="icon ion-ios-star"></i>8.4</span>
-												</div>
-												<p class="reviews__text">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
-											</li>
+											@foreach ($movie->reviews as $review)
+												<li class="reviews__item">
+													<div class="reviews__autor">
+														@foreach ($c->user as $user)
+															@if ($user->picture!==null)
+																<img class="reviews__avatar" src="{{asset($user->picture)}}" alt="">
+															@else
+																<img class="reviews__avatar" src="{{asset(img/user-img.png)}}" alt="">
+															@endif
+															<span class="reviews__name">{{$review->title}}</span>
+															<span class="reviews__time">{{$review->created_at}}, {{$user->name}}</span>
+														@endforeach
+														<span class="reviews__rating"><i class="icon ion-ios-star"></i>{{$review->rate}}</span>
+													</div>
+													<p class="reviews__text">{{$review->description}}</p>
+												</li>
+											@endforeach
 										</ul>
 
-										<form action="#" class="form">
-											<input type="text" class="form__input" placeholder="Naslov...">
-											<textarea class="form__textarea" placeholder="Recenzija..."></textarea>
-                                            <div class="form__slider">
-												<div class="form__slider-rating" id="slider__rating"></div>
-												<div class="form__slider-value" id="form__slider-value"></div>
-                                            </div>
-											<button type="button" class="form__btn">Pošalji</button>
+										<form action="{{url('/movie/review')}}" method="POST" class="form">
+											@csrf
+											<input type="hidden" name="hid" id="hid" value="{{$movie->id}}">
+											<input type="text" class="form__input" placeholder="Naslov..." id="title" name="title" required>
+											<textarea class="form__textarea" placeholder="Recenzija..." id="textR" name="text" required></textarea>
+											<div style="color:grey;">
+												<label for="makrId">Ocjena:</label> <br>
+												<input style="background-color: grey; height:2px;" type="range" name="mark" id="markId" value="5" min="1" max="10" oninput="outId.value = markId.value"> <br>
+												<output name="out" id="outId">5</output>
+											</div>
+											   
+											<input type="submit" class="form__btn" name="btn" id="btn2" value="Pošalji">
 										</form>
 									</div>
 								</div>
@@ -255,9 +275,11 @@
 				<div class="col-12 col-lg-4 col-xl-4">
 					<div class="row">
 						<!-- section title -->
-						<div class="col-12">
-							<h2 class="section__title section__title--sidebar">Preporučeno:</h2>
-						</div>
+						@if ($movie->recommend!==[])
+							<div class="col-12">
+								<h2 class="section__title section__title--sidebar">Preporučeno:</h2>
+							</div>
+						@endif
 						<!-- end section title -->
 
 						<!-- card -->
@@ -285,4 +307,154 @@
 		</div>
 	</section>
 	<!-- end content -->
+
+	<!-- Add Jquery to page -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="http://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+       crossorigin="anonymous">
+	</script>
+	<script>
+		jQuery(document).ready(function(){
+			// when the user clicks on like
+			jQuery('.like').on('click', function(e){
+				e.preventDefault();
+				$.ajaxSetup({
+      				headers: {
+		        		'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      				}
+    			});
+				var movieId = $(this).data('movie');
+				var commentId = $(this).data('comm');
+				var liked = $(this).data('num');
+				$post = $(this);
+
+				jQuery.ajax({
+					url: "{{url('/movie/comment/like')}}",
+					type: 'post',
+					data: {
+						'liked': liked,
+						'movieId': movieId,
+						'commentId': commentId
+					},
+					success: function(response){
+						//$post.parent().find('span.likes_count').text(response + " likes");
+						$post.parent().find('.numb').text(response[0]);
+						$post.parent().parent().find('.dr').find('.numb').text(response[1]);
+						//$post.addClass('hide');
+						//$post.siblings().removeClass('hide');
+					}
+				});
+			});
+
+			// when the user clicks on unlike
+			jQuery('.unlike').on('click', function(e){
+				e.preventDefault();
+				$.ajaxSetup({
+      				headers: {
+		        		'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      				}
+    			});
+				var movieId = $(this).data('movie');
+				var commentId = $(this).data('comm');
+				var unliked = $(this).data('num');
+				$post = $(this);
+
+				jQuery.ajax({
+					url: "{{url('/movie/comment/unlike')}}",
+					type: 'post',
+					data: {
+						'unliked': unliked,
+						'movieId': movieId,
+						'commentId': commentId
+					},
+					success: function(response){
+						//$post.parent().find('span.likes_count').text(response + " likes");
+						$post.parent().find('.numb').text(response[1]);
+						$post.parent().parent().find('.pr').find('.numb').text(response[0]);
+						//$post.addClass('hide');
+						//$post.siblings().removeClass('hide');
+					}
+				});
+			});
+
+			//prijava komentara
+			jQuery('.prkom').on('click', function(e){
+				e.preventDefault();
+				$.ajaxSetup({
+      				headers: {
+		        		'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      				}
+    			});
+				var commentId = $(this).data('comm');
+				$post = $(this);
+
+				jQuery.ajax({
+					url: "{{url('/movie/comment/report')}}",
+					type: 'post',
+					data: {
+						'commentId': commentId
+					},
+					success: function(response){
+						if(response==1){
+							alert("Komentar je prijavljen!");
+						}
+					}
+				});
+			});
+
+			//prijava sadrzaja
+			jQuery('#wrong').on('click', function(e){
+				e.preventDefault();
+				$.ajaxSetup({
+      				headers: {
+		        		'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      				}
+    			});
+				var id = $(this).data('id');
+				$post = $(this);
+
+				jQuery.ajax({
+					url: "{{url('/movie/report')}}",
+					type: 'post',
+					data: {
+						'id': id
+					},
+					success: function(response){
+						if(response==1){
+							alert("Problem je prijavljen!");
+						}
+					}
+				});
+			});
+
+
+			//plejlista
+			jQuery('#play').on('click', function(e){
+				e.preventDefault();
+				$.ajaxSetup({
+      				headers: {
+		        		'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      				}
+    			});
+				var id = $(this).data('id');
+				$post = $(this);
+
+				jQuery.ajax({
+					url: "{{url('/movie/playlist')}}",
+					type: 'post',
+					data: {
+						'id': id
+					},
+					success: function(response){
+						if(response==1){
+							alert("Dodato na plejlistu!");
+						}
+					}
+				});
+			});
+
+
+		});
+	</script>
 @endsection

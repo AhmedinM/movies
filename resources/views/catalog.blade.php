@@ -27,26 +27,38 @@
     </section>
 
     <!-- filter -->
-	<div class="filter">
+	<form class="filter" method="POST" action="/catalog/filter">
+		@csrf
+		@if ($data[4]==1)
+			<input type="hidden" name="type" id="type" value="1">
+		@else
+			<input type="hidden" name="type" id="type" value="0">
+		@endif
 		<div class="container">
 			<div class="row">
 				<div class="col-12">
 					<div class="filter__content">
+
 						<div class="filter__items">
 							<!-- filter item -->
 							<div class="filter__item" id="filter__genre">
 								<span class="filter__item-label">{{__('Žanr:')}}</span>
 
-								<div class="filter__item-btn dropdown-toggle" role="navigation" id="filter-genre" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									<input type="button" value="Action/Adventure">
+								{{--<div class="filter__item-btn dropdown-toggle" role="navigation" id="filter-genre" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<input type="button" value="Žanr">
 									<span></span>
-								</div>
+								</div>--}}
 
-								<ul class="filter__item-menu dropdown-menu scrollbar-dropdown" aria-labelledby="filter-genre">
-									{{--@foreach ($data[4] as $genre)
-										{{--<li>{{$genre["name"]}}</li>
-									@endforeach--}}
-								</ul>
+								{{--<select class="filter__item-menu dropdown-menu scrollbar-dropdown" aria-labelledby="filter-genre">
+									@foreach ($data[5] as $genre)
+										<option>{{$genre->name}}</option>
+									@endforeach
+								</select>--}}
+								<select name="genre" id="genre" style="background-color: #1e2129; color:white; width: 150px;">
+									@foreach ($data[5] as $genre)
+										<option value="{{$genre->id}}">{{$genre->name}}</option>
+									@endforeach
+								</select>
 							</div>
 							<!-- end filter item -->						
 
@@ -54,16 +66,22 @@
 							<div class="filter__item" id="filter__rate">
 								<span class="filter__item-label">{{__('Ocjena:')}}</span>
 
-								<div class="filter__item-btn dropdown-toggle" role="button" id="filter-rate" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									<div class="filter__range">
+								<div class="filter__item-btn dropdown-toggle" role="button" id="filter-rate" aria-haspopup="true" aria-expanded="false">
+									{{--<div class="filter__range">
 										<div id="filter__imbd-start"></div>
 										<div id="filter__imbd-end"></div>
+									</div>--}}
+									<div style="color:white;">
+										<label for="makrId">Min:</label> <br>
+										<input style="background-color: white; height:2px;" type="range" step="0.1" name="mark" id="markId" value="0" min="0" max="10" oninput="outId.value = markId.value">
+										<output name="out" id="outId">0</output>
+									</div>
+									<div style="color:white;">
+										<label for="makrId2">Max:</label> <br>
+										<input style="background-color: white; height:2px;" type="range" step="0.1" name="mark2" id="markId2" value="10" min="0" max="10" oninput="outId2.value = markId2.value">
+										<output name="out2" id="outId2">10</output>
 									</div>
 									<span></span>
-								</div>
-
-								<div class="filter__item-menu filter__item-menu--range dropdown-menu" aria-labelledby="filter-rate">
-									<div id="filter__imbd"></div>
 								</div>
 							</div>
 							<!-- end filter item -->
@@ -72,10 +90,20 @@
 							<div class="filter__item" id="filter__year">
 								<span class="filter__item-label">{{__('Godina:')}}</span>
 
-								<div class="filter__item-btn dropdown-toggle" role="button" id="filter-year" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									<div class="filter__range">
+								<div class="filter__item-btn dropdown-toggle" role="button" id="filter-year" aria-haspopup="true" aria-expanded="false">
+									{{--<div class="filter__range">
 										<div id="filter__years-start"></div>
                                         <div id="filter__years-end"></div>
+									</div>--}}
+									<div style="color:white;">
+										<label for="makrId3">Min:</label> <br>
+										<input style="background-color: white; height:2px;" type="range" step="1" name="mark3" id="markId3" value="1970" min="1970" max="2020" oninput="outId3.value = markId3.value">
+										<output name="out3" id="outId3">1970</output>
+									</div>
+									<div style="color:white;">
+										<label for="makrId4">Max:</label> <br>
+										<input style="background-color: white; height:2px;" type="range" step="1" name="mark4" id="markId4" value="2020" min="1970" max="2020" oninput="outId4.value = markId4.value">
+										<output name="out4" id="outId4">2020</output>
 									</div>
 									<span></span>
 								</div>
@@ -88,13 +116,15 @@
 						</div>
 						
 						<!-- filter btn -->
-						<button class="filter__btn" type="button">filtriraj</button>
+						<input class="filter__btn" type="submit" value="filtriraj">
 						<!-- end filter btn -->
 					</div>
+
+
 				</div>
 			</div>
 		</div>
-	</div>
+	</form>
     <!-- end filter -->
     
 
@@ -108,7 +138,7 @@
 					<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 						<div class="card">
 							<div class="card__cover">
-								<img src="{{$movie->picture}}" alt="">	
+								<img src="{{asset("$movie->picture")}}" alt="">	
 								@if ($data[4]==1)
 									<a href="{{"series/{$movie->seriesId}/{$movie->id}"}}" class="card__play">
 										<i class="icon ion-ios-play"></i>

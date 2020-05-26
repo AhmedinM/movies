@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\User;
 use App\Premium;
+use App\Playlist;
+use App\PlaylistSerie;
 use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
@@ -19,10 +21,14 @@ class ProfileController extends Controller
 
     public function profile(){
         $user = Auth::user();
+        if($user!=null){
         $user->premium = DB::table('premia')->where('user_id',$user->id)->first();
 
         //return $user;
         return view('profile')->with('user',$user);
+        }else{
+            return redirect()->back();
+        }
     }
 
     public function changePassword(Request $request){
@@ -59,14 +65,27 @@ class ProfileController extends Controller
         if($old!==null){
             return redirect()->back()->with('errMsg','Već ste PREMIUM korisnik.');
         }else{
-            $premium = new Premium;
-            $premium->user_id = Auth::id();
-            $premium->number = $request->number;
-            $premium->pin = Hash::make($request->pin);
+            $check = DB::table('cards')->where('number',$request->number)->first();
+            if($check!==null){
+                if($check->pin!=$request->pin){
+                    return redirect()->back()->with('errMsg','Unijet je netačan PIN.');
+                }else{
+                    if($check->status<5.99){
+                        return redirect()->back()->with('errMsg','Nemate dovoljno novca.');
+                    }else{
+                        $premium = new Premium;
+                        $premium->user_id = Auth::id();
+                        $premium->number = $request->number;
+                        $premium->pin = Hash::make($request->pin);
 
-            $premium->save();
+                        $premium->save();
 
-            return $this->profile();
+                        return $this->profile();
+                    }
+                }
+            }else{
+                return redirect()->back()->with('errMsg','Unijeti su podaci nevažeće kartice.');
+            }
         }
     }
 
@@ -110,17 +129,44 @@ class ProfileController extends Controller
 
     public function changePhoto(Request $request)
     {
-        $this->validate($request,[
-            'picture' => 'required|image|mimes:jpeg,png,jpg,gif'
+        $request->validate([
+            'picture' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-        die("dalje");
-        return $request->picture;
 
-        /*$picture = $request->file('picture');
-        $name = random().'.'.$picture->getClientOriginalExtension();
-        $picture->move(public_path('profiles'),$name);
+        $name = time().'.'.$request->picture->extension();  
+   
+        $request->picture->move(public_path('profiles'), $name);
+
         $user = User::find(Auth::id());
-        $user->picture = 'app/profiles/'.$name;
-        $user->save();*/
+        $user->picture = 'profiles/'.$name;
+        $user->save();
+        
+        return back();
+    }
+
+    public function playlist(){
+        $user = Auth::user();
+        if($user!=null){
+            $user->premium = DB::table('premia')->where('user_id',$user->id)->first();
+            if($user->premium!=null){
+            $user->moviePlaylists = Playlist::where('user_id',$user->id)->get();
+            foreach($user->moviePlaylists as $play){
+                $play->movie = $play->movie()->first();
+            }
+
+            $user->episodePlaylists = PlaylistSerie::where('user_id',$user->id)->get();
+            foreach($user->episodePlaylists as $play){
+                $play->episode = $play->episode()->first();
+                $play->episode->season = $play->episode->season()->with('serie')->first();
+            }
+
+            return view('playlist')->with('user',$user);
+            //return $user;
+            }else{
+                return redirect()->back();
+            }
+        }else{
+            return redirect()->back();
+        }
     }
 }

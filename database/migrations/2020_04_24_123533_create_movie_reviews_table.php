@@ -21,6 +21,7 @@ class CreateMovieReviewsTable extends Migration
             $table->foreign('movie_id')->references('id')->on('movies')->onUpdate('cascade')->onDelete('cascade');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->integer('rate');
             $table->timestamps();
         });
     }

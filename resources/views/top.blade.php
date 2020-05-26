@@ -117,7 +117,7 @@
 								</h3>
 								<span class="card__category">
 									@foreach ($movie->genres as $genre)
-										<a>{{$genre->genre_name}}</a>
+										<a>{{$genre->name}}</a>
 									@endforeach
 								</span>
 								<span class="card__rate"><i class="icon ion-ios-star"></i>{{$movie->rate}}</span>
@@ -144,7 +144,7 @@
 								</h3>
 								<span class="card__category">
 									@foreach ($movie->genres as $genre)
-										<a>{{$genre->genre_name}}</a>
+										<a>{{$genre->name}}</a>
 									@endforeach
 								</span>
 								<span class="card__rate"><i class="icon ion-ios-star"></i>{{$movie->season[0]->serie->rate}}</span>

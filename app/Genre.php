@@ -9,4 +9,8 @@ class Genre extends Model
     public function movies(){
         return $this->belongsToMany('App\Movie','content_genres');
     }
+
+    public function series(){
+        return $this->belongsToMany('App\Serie','series_genres');
+    }
 }

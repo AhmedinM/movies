@@ -30,6 +30,9 @@
 	<meta name="description" content="">
 	<meta name="keywords" content="">
 	<meta name="author" content="Dmitry Volkov">
+
+	{{--<meta name="csrf-token" content="{{ csrf_token() }}">--}}
+	@yield('meta')
 	<title>@yield('title')</title>
 
 	{{--Profil--}}
@@ -128,14 +131,15 @@
 		</div>
 
 		<!-- header search -->
-		<form action="#" class="header__search">
+		<form action="{{url('/search')}}" method="POST" class="header__search">
+			@csrf
 			<div class="container">
 				<div class="row">
 					<div class="col-12">
 						<div class="header__search-content">
-							<input type="text" placeholder="Traži filmove i serije koje želiš da gledaš...">
+							<input type="text" id="srch" name="srch" placeholder="Traži filmove i serije koje želiš da gledaš..." required>
 
-							<button type="button">pretraži</button>
+							<button>pretraži</button>
 						</div>
 					</div>
 				</div>

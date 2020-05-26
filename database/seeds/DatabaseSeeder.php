@@ -23,5 +23,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ContentGenresTableSeeder::class);
         $this->call(MovieReviewSeeder::class);
         $this->call(MovieCaptionsSeeder::class);
+        $this->call(CardSeeder::class);
     }
 }

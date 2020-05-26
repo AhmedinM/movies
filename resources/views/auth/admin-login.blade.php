@@ -55,7 +55,7 @@
                                 <input id="email" name="email" type="email" placeholder="Email..." class="sign__input form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
 								@error('email')
 									<br>
-                                    <span class="invalid-feedback" role="alert">
+                                    <span style="color: white;" class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
 									</span>
                                 @enderror
@@ -64,7 +64,7 @@
 							<div class="sign__group">
                                 <input id="password" name="password" type="password" class="sign__input form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" placeholder="Lozinka...">
                                 @error('password')
-                                    <span class="invalid-feedback" role="alert">
+                                    <span style="color: white;" class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror

@@ -21,6 +21,7 @@ class CreateSerieReviewsTable extends Migration
             $table->foreign('serie_id')->references('id')->on('series')->onUpdate('cascade')->onDelete('cascade');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->integer('rate');
             $table->timestamps();
         });
     }

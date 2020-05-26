@@ -43,7 +43,7 @@
                             @else
                                 <a href="#"><img src="{{$user->picture}}" alt=""><br></a>
                             @endif
-                            <form action="/profile/change-photo" method="post">
+                            <form action="{{route('photo.change')}}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <input style="width: 160px; margin-left:30px" id="picture" name="picture"  class="redbtn" type="file" required>
                                 <br>
@@ -54,9 +54,9 @@
                         <div class="user-fav">
                             <p>Detalji</p>
                             <ul>
-                                <li  class="active"><a href="userprofile.html">Profil</a></li>
+                                <li  class="active"><a href="{{url('/profile')}}">Profil</a></li>
                                 @if ($user->premium!==null)
-                                    <li><a href="userfavoritelist.html">Plejlista</a></li>
+                                    <li><a href="{{url('/profile/playlist')}}">Plejlista</a></li>
                                 @endif
                             </ul>
                         </div>
