@@ -74,14 +74,14 @@
 					<video controls playsinline poster="{{asset('icon/favicon-32x32.png')}}" id="player">
 						<!-- Video files -->
 						{{--<source src="{{asset('videos/kolpa.mp4')}}" type="video/mp4">--}}
-						<source src="{{$serie->episode->video}}" type="video/mp4">
+						<source src="{{asset("{$serie->episode->video}")}}" type="video/mp4">
 						<!-- Caption files -->
 						<?php $i=0; ?>
 						@foreach ($serie->episode->captions as $cap)
 							@if ($i==0)
-								<track kind="captions" label="{{$cap->title}}" srclang="{{$cap->short}}" src="{{$cap->file}}" default>
+								<track kind="captions" label="{{$cap->title}}" srclang="{{$cap->short}}" src="{{asset("{$cap->file}")}}" default>
 							@else
-								<track kind="captions" label="{{$cap->title}}" srclang="{{$cap->short}}" src="{{$cap->file}}">	
+								<track kind="captions" label="{{$cap->title}}" srclang="{{$cap->short}}" src="{{asset("{$cap->file}")}}">	
 							@endif
 						@endforeach
 
@@ -115,7 +115,7 @@
 								@endif
 								<?php $j++; ?>
 										<span>Sezona: {{$season->number}}</span>
-										<span>Episode: <?=count($season->episodes)?></span>
+										<span>Epizode: <?=count($season->episodes)?></span>
 									</button>
 								</div>
 								

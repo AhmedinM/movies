@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Admin Panel</title>
+    {{--<title>Admin Panel</title>--}}
+    @yield('title')
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- favicon
@@ -53,6 +54,12 @@
 		============================================ -->
     <link rel="stylesheet" type="text/css" href="{{asset('nalika/css/calendar/fullcalendar.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('nalika/css/calendar/fullcalendar.print.min.css')}}">
+    <!-- modals CSS
+		============================================ -->
+    <link rel="stylesheet" href="{{asset('nalika/css/modals.css')}}">
+    <!-- forms CSS
+		============================================ -->
+    <link rel="stylesheet" href="{{asset('nalika/css/form/all-type-forms.css')}}">
     <!-- style CSS
 		============================================ -->
     <link rel="stylesheet" type="text/css" href="{{asset('nalika/style.css')}}">
@@ -100,33 +107,34 @@
                         <li>
                             <a class="has-arrow" href="mailbox.html" aria-expanded="false"><i class="icon nalika-forms icon-wrap"></i> <span class="mini-click-non">Dodaj novo</span></a>
                             <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="Basic Form Elements" href="basic-form-element.html"><span class="mini-sub-pro">Film</span></a></li>
-                                <li><a title="Advance Form Elements" href="advance-form-element.html"><span class="mini-sub-pro">Serija</span></a></li>
-                                <li><a title="Password Meter" href="password-meter.html"><span class="mini-sub-pro">Sezona</span></a></li>
-                                <li><a title="Multi Upload" href="multi-upload.html"><span class="mini-sub-pro">Epizoda</span></a></li>
-                                <li><a title="Text Editor" href="tinymc.html"><span class="mini-sub-pro">Prevod filma</span></a></li>
-                                <li><a title="Dual List Box" href="dual-list-box.html"><span class="mini-sub-pro">Prevod epizode</span></a></li>
+                                <li><a title="Dodaj žanr" href="{{url('/admin/add-genre')}}"><span class="mini-sub-pro">Žanr</span></a></li>
+                                <li><a title="Dodaj film" href="{{url('/admin/add-movie')}}"><span class="mini-sub-pro">Film</span></a></li>
+                                <li><a title="Dodaj seriju" href="{{url('/admin/add-serie')}}"><span class="mini-sub-pro">Serija</span></a></li>
+                                <li><a title="Dodaj sezou" href="{{url('/admin/add-season')}}"><span class="mini-sub-pro">Sezona</span></a></li>
+                                <li><a title="Dodaj epizodu" href="{{url('/admin/add-episode')}}"><span class="mini-sub-pro">Epizoda</span></a></li>
+                                <li><a title="Dodaj prevod filma" href="{{url('/admin/add-movieCaption')}}"><span class="mini-sub-pro">Prevod filma</span></a></li>
+                                <li><a title="Dodaj prevod epizode" href="{{url('/admin/add-serieCaption')}}"><span class="mini-sub-pro">Prevod epizode</span></a></li>
                             </ul>
                         </li>
                         <li>
                             <a class="has-arrow" href="mailbox.html" aria-expanded="false"><i class="icon nalika-mail icon-wrap"></i> <span class="mini-click-non">Prijave</span></a>
                             <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="Inbox" href="mailbox.html"><span class="mini-sub-pro">Komentari</span></a></li>
-                                <li><a title="View Mail" href="mailbox-view.html"><span class="mini-sub-pro">Sadržaj</span></a></li>
+                                <li><a title="Prijavljeni komentari" href="{{url('/admin/comments')}}"><span class="mini-sub-pro">Komentari</span></a></li>
+                                <li><a title="Prijavljeni sadržaj" href="{{url('/admin/content')}}"><span class="mini-sub-pro">Sadržaj</span></a></li>
                             </ul>
                         </li>
                         <li>
                             <a class="has-arrow" href="mailbox.html" aria-expanded="false"><i class="icon nalika-table icon-wrap"></i> <span class="mini-click-non">Lista korisnika</span></a>
                             <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="Peity Charts" href="static-table.html"><span class="mini-sub-pro">Obični</span></a></li>
-                                <li><a title="Data Table" href="data-table.html"><span class="mini-sub-pro">Premium</span></a></li>
+                                <li><a title="Lista običnih korisnika" href="{{url('/admin/users')}}"><span class="mini-sub-pro">Obični</span></a></li>
+                                <li><a title="Lista premium naloga" href="{{url('/admin/premiums')}}"><span class="mini-sub-pro">Premium</span></a></li>
                             </ul>
                         </li>
                         <li id="removable">
                             <a class="has-arrow" href="#" aria-expanded="false"><i class="icon nalika-new-file icon-wrap"></i> <span class="mini-click-non">Administratori</span></a>
                             <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="Login" href="login.html"><span class="mini-sub-pro">Dodaj novog</span></a></li>
-                                <li><a title="Register" href="register.html"><span class="mini-sub-pro">Obriši nekog</span></a></li>
+                                <li><a title="Dodaj admina" href="{{url('/admin/add-admin')}}"><span class="mini-sub-pro">Dodaj novog</span></a></li>
+                                <li><a title="Lista admina" href="{{url('/admin/admins')}}"><span class="mini-sub-pro">Lista</span></a></li>
                             </ul>
                         </li>
                     </ul>
@@ -159,28 +167,58 @@
                                     <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
                                         <div class="header-right-info" style="margin-right: -115%">
                                             <ul class="nav navbar-nav mai-top-nav header-right-menu">
-                                                <li class="nav-item"><a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle"><i class="icon nalika-alarm" aria-hidden="true"></i><span class="indicator-nt"></span></a>
+                                                <li class="nav-item"><a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle"><i class="icon nalika-alarm" aria-hidden="true"></i>
+                                                                  @if ($notifications==0)
+                                                                    <span class=""></span>
+                                                                  @else
+                                                                    <span class="indicator-nt"></span>  
+                                                                  @endif </a>
                                                     <div role="menu" class="notification-author dropdown-menu animated zoomIn">
                                                         <div class="notification-single-top">
-                                                            <h1>Notifications</h1>
+                                                            <h1>Obavještenja</h1>
                                                         </div>
                                                         <ul class="notification-menu">
-                                                            <li>
-                                                                <a href="#">
-                                                                    <div class="notification-icon">
-                                                                        <i class="icon nalika-tick" aria-hidden="true"></i>
-                                                                    </div>
+                                                            @if ($notifications==3)
+                                                              <li>
+                                                                <a href="{{url('')}}">
                                                                     <div class="notification-content">
-                                                                        <span class="notification-date">16 Sept</span>
-                                                                        <h2>Advanda Cro</h2>
-                                                                        <p>Please done this project as soon possible.</p>
+                                                                        <h2>Prijave</h2>
+                                                                        <p>Imate nepregledanih prijavljenih komentara.</p>
                                                                     </div>
                                                                 </a>
-                                                            </li>
+                                                              </li>
+                                                              <li>
+                                                                <a href="{{url('')}}">
+                                                                    <div class="notification-content">
+                                                                        <h2>Prijave</h2>
+                                                                        <p>Imate nepregledanog prijavljenog sadržaja.</p>
+                                                                    </div>
+                                                                </a>
+                                                              </li>
+                                                            @else
+                                                              @if ($notifications==2)
+                                                                <li>
+                                                                  <a href="{{url('')}}">
+                                                                      <div class="notification-content">
+                                                                          <h2>Prijave</h2>
+                                                                          <p>Imate nepregledanog prijavljenog sadržaja.</p>
+                                                                      </div>
+                                                                  </a>
+                                                                </li>
+                                                              @else
+                                                                @if ($notifications==1)
+                                                                  <li>
+                                                                    <a href="{{url('')}}">
+                                                                        <div class="notification-content">
+                                                                            <h2>Prijave</h2>
+                                                                            <p>Imate nepregledanih prijavljenih komentara.</p>
+                                                                        </div>
+                                                                    </a>
+                                                                  </li>
+                                                                @endif
+                                                              @endif
+                                                            @endif
                                                         </ul>
-                                                        <div class="notification-view">
-                                                            <a href="#">View All Notification</a>
-                                                        </div>
                                                     </div>
                                                 </li>
                                                 <li class="nav-item">
@@ -190,15 +228,7 @@
 															<i class="icon nalika-down-arrow nalika-angle-dw nalika-icon"></i>--}}
 														</a>
                                                     <ul role="menu" class="dropdown-header-top author-log dropdown-menu animated zoomIn">
-                                                        <li><a href="register.html"><span class="icon nalika-home author-log-ic"></span> Register</a>
-                                                        </li>
-                                                        <li><a href="#"><span class="icon nalika-user author-log-ic"></span> My Profile</a>
-                                                        </li>
-                                                        <li><a href="lock.html"><span class="icon nalika-diamond author-log-ic"></span> Lock</a>
-                                                        </li>
-                                                        <li><a href="#"><span class="icon nalika-settings author-log-ic"></span> Settings</a>
-                                                        </li>
-                                                        <li><a href="login.html"><span class="icon nalika-unlocked author-log-ic"></span> Log Out</a>
+                                                        <li><a href="{{url('/admin/logout')}}"><span class="icon nalika-unlocked author-log-ic"></span>Odjavi se</a>
                                                         </li>
                                                     </ul>
                                                 </li>
@@ -312,6 +342,13 @@
     <!-- main JS
 		============================================ -->
     <script src="{{asset('nalika/js/main.js')}}"></script>
+    <!-- tab JS
+		============================================ -->
+    <script src="{{asset('js/tab.js')}}"></script>
+    <!-- icheck JS
+		============================================ -->
+    <script src="{{asset('js/icheck/icheck.min.js')}}"></script>
+    <script src="{{asset('js/icheck/icheck-active.js')}}"></script>
 </body>
 
 </html>

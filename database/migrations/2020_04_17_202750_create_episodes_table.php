@@ -17,7 +17,6 @@ class CreateEpisodesTable extends Migration
             $table->id();
             $table->string('title');
             $table->integer('number');
-            $table->date('published');
             $table->unsignedBigInteger('season_id');
             $table->foreign('season_id')->references('id')->on('seasons')->onUpdate('cascade')->onDelete('cascade');
             $table->string('video');

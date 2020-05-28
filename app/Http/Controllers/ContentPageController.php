@@ -27,6 +27,9 @@ class ContentPageController extends Controller
 {
     public function movie($id){
         $movie = Movie::find($id);
+        $movie->views = $movie->views+1;
+        $movie->save();
+
         if($movie!==null){
             $movie->genres = $movie->genres()->get();
             $movie->captions = $movie->movieCaptions()->get();
@@ -137,6 +140,8 @@ class ContentPageController extends Controller
             if(!isset($epId)){
                 $p = Season::where('serie_id',$id)->first();
                 $serie->episode = Episode::where('season_id',$p->id)->orderBy('number','ASC')->first();
+                $serie->episode->views = $serie->episode->views+1;
+                $serie->episode->save();
             }else{
                 $serie->episode = Episode::find($epId);
                 if($serie->episode==null){

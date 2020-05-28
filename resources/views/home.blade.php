@@ -378,9 +378,9 @@
             @endforeach
 
             <!-- section btn -->
-            <div class="col-12">
+            {{--<div class="col-12">
                 <a href="{{url('/catalog')}}" class="section__btn">{{__('sve')}}</a>
-            </div>
+            </div>--}}
             <!-- end section btn -->
         </div>
     </div>

@@ -73,14 +73,14 @@
 					<video controls playsinline poster="{{asset('icon/favicon-32x32.png')}}" id="player">
 						<!-- Video files -->
 						{{--<source src="{{asset('videos/kolpa.mp4')}}" type="video/mp4">--}}
-						<source src="{{$movie->video}}" type="video/mp4">
+						<source src="{{asset("{$movie->video}")}}" type="video/mp4">
 						<!-- Caption files -->
 						<?php $i=0; ?>
 						@foreach ($movie->captions as $cap)
 							@if ($i==0)
-								<track kind="captions" label="{{$cap->title}}" srclang="{{$cap->short}}" src="{{$cap->file}}" default>
+								<track kind="captions" label="{{$cap->title}}" srclang="{{$cap->short}}" src="{{asset("{$cap->file}")}}" default>
 							@else
-								<track kind="captions" label="{{$cap->title}}" srclang="{{$cap->short}}" src="{{$cap->file}}">	
+								<track kind="captions" label="{{$cap->title}}" srclang="{{$cap->short}}" src="{{asset("{$cap->file}")}}">	
 							@endif
 						@endforeach
 
