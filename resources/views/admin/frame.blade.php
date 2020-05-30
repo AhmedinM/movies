@@ -84,16 +84,17 @@
             </div>
 			<div class="nalika-profile">
 				<div class="profile-dtl">
-					<a href="#"><img src="{{asset('nalika/img/notification/4.jpg')}}" alt="" /></a>
+          {{--<a href="#"><img src="{{asset('nalika/img/notification/4.jpg')}}" alt="" /></a>--}}
+          <a href="#"><img src="{{asset('nalika/img/admin.png')}}" alt="" /></a>
 					<h2><span class="min-dtn">Admin</span></h2>
 				</div>
-				<div class="profile-social-dtl">
+				{{--<div class="profile-social-dtl">
 					<ul class="dtl-social">
 						<li><a href="https://www.facebook.com"><i class="icon nalika-facebook"></i></a></li>
 						<li><a href="https://www.twitter.com"><i class="icon nalika-twitter"></i></a></li>
 						<li><a href="https://www.linkedin.com"><i class="icon nalika-linkedin"></i></a></li>
 					</ul>
-				</div>
+				</div>--}}
 			</div>
             <div class="left-custom-menu-adp-wrap comment-scrollbar">
                 <nav class="sidebar-nav left-sidebar-menu-pro">

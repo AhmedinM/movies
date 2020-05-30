@@ -13,15 +13,13 @@ class AuthAdminRedirect
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next, $guard = null)
     {
-        return "radi";
-        if(auth()->guard('admin')) {
-            //return redirect()->route('admin');
-        }else{
-            return redirect()->route('admin');
+        //dd(auth()->guard('admin')->check());
+        if (!auth()->guard('admin')->check()) {
+            return redirect()->route('admin.login');
         }
 
-        //return $next($request);
+        return $next($request);
     }
 }

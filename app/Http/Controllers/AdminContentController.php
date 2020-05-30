@@ -27,8 +27,8 @@ class AdminContentController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:admin');
-        //$this->middleware('auth.redirect');
+        $this->middleware('admin.redirect');
+        //$this->middleware('auth:admin');
     }
 
     public function loadMovie(){
@@ -185,7 +185,7 @@ class AdminContentController extends Controller
             'file' => 'required',
         ]);
 
-        $name = time().'.'.$request->file->extension();  
+        $name = time().'.vtt';  
         $request->file->move(public_path('captions'), $name);
 
         $mc = new MovieCaption;
@@ -207,7 +207,7 @@ class AdminContentController extends Controller
             'file' => 'required',
         ]);
 
-        $name = time().'.'.$request->file->extension();  
+        $name = time().'.vtt';  
         $request->file->move(public_path('captions'), $name);
 
         $ec = new EpisodeCaption;

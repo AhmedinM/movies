@@ -36,12 +36,12 @@
 				<!-- plan features -->
 				<div class="col-12">
 					<ul class="row plan-features">
-						<li class="col-12 col-md-6 col-lg-4">1 month unlimited access!</li>
-						<li class="col-12 col-md-6 col-lg-4">Stream on your phone, laptop, tablet or TV.</li>
-						<li class="col-12 col-md-6 col-lg-4">1 month unlimited access!</li>
-						<li class="col-12 col-md-6 col-lg-4">Thousands of TV shows, movies & more.</li>
-						<li class="col-12 col-md-6 col-lg-4">You can even Download & watch offline.</li>
-						<li class="col-12 col-md-6 col-lg-4">Thousands of TV shows, movies & more.</li>
+						<li class="col-12 col-md-6 col-lg-4">Najbolja ponuda!</li>
+						<li class="col-12 col-md-6 col-lg-4">Dostupno na svim uređajima!</li>
+						<li class="col-12 col-md-6 col-lg-4">Besplatno gledanje!</li>
+						<li class="col-12 col-md-6 col-lg-4">Veliki broj filmova i serija!</li>
+						<li class="col-12 col-md-6 col-lg-4">Dodatne mogućnosti nakon registracije!</li>
+						<li class="col-12 col-md-6 col-lg-4">Povlašćeno PREMIUM članstvo!</li>
 					</ul>
 				</div>
 				<!-- end plan features -->
@@ -101,7 +101,7 @@
 			<div class="row">
 				<!-- section title -->
 				<div class="col-12">
-					<h2 class="section__title section__title--no-margin">Our Features</h2>
+					<h2 class="section__title section__title--no-margin">Ostalo</h2>
 				</div>
 				<!-- end section title -->
 
@@ -110,7 +110,7 @@
 					<div class="feature">
 						<i class="icon ion-ios-tv feature__icon"></i>
 						<h3 class="feature__title">Ultra HD</h3>
-						<p class="feature__text">If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
+						<p class="feature__text">Svaki naš video snimak je najboljeg kvaliteta.</p>
 					</div>
 				</div>
 				<!-- end feature -->
@@ -119,8 +119,8 @@
 				<div class="col-12 col-md-6 col-lg-4">
 					<div class="feature">
 						<i class="icon ion-ios-film feature__icon"></i>
-						<h3 class="feature__title">Film</h3>
-						<p class="feature__text">All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first.</p>
+						<h3 class="feature__title">Filmovi</h3>
+						<p class="feature__text">Veliki izbor najnovijih filmova.</p>
 					</div>
 				</div>
 				<!-- end feature -->
@@ -129,8 +129,8 @@
 				<div class="col-12 col-md-6 col-lg-4">
 					<div class="feature">
 						<i class="icon ion-ios-trophy feature__icon"></i>
-						<h3 class="feature__title">Awards</h3>
-						<p class="feature__text">It to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining.</p>
+						<h3 class="feature__title">Nagrade</h3>
+						<p class="feature__text">Naš rad je prepoznat i nagrađen od strane velikog broja udruženja i pojedinaca iz oblasti kinematografije.</p>
 					</div>
 				</div>
 				<!-- end feature -->
@@ -139,8 +139,8 @@
 				<div class="col-12 col-md-6 col-lg-4">
 					<div class="feature">
 						<i class="icon ion-ios-notifications feature__icon"></i>
-						<h3 class="feature__title">Notifications</h3>
-						<p class="feature__text">Various versions have evolved over the years, sometimes by accident, sometimes on purpose.</p>
+						<h3 class="feature__title">Najnovije</h3>
+						<p class="feature__text">Konstantno ažuriramo sadržaj našeg sajta najnovijim filmovima i serijama.</p>
 					</div>
 				</div>
 				<!-- end feature -->
@@ -149,8 +149,8 @@
 				<div class="col-12 col-md-6 col-lg-4">
 					<div class="feature">
 						<i class="icon ion-ios-rocket feature__icon"></i>
-						<h3 class="feature__title">Rocket</h3>
-						<p class="feature__text">It to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting.</p>
+						<h3 class="feature__title">Najbolje</h3>
+						<p class="feature__text">Kod nas možete naći sva popularna ostvarenja ocijenjena najboljim ocjenama od strane kritike.</p>
 					</div>
 				</div>
 				<!-- end feature -->
@@ -159,8 +159,8 @@
 				<div class="col-12 col-md-6 col-lg-4">
 					<div class="feature">
 						<i class="icon ion-ios-globe feature__icon"></i>
-						<h3 class="feature__title">Multi Language Subtitles </h3>
-						<p class="feature__text">Various versions have evolved over the years, sometimes by accident, sometimes on purpose.</p>
+						<h3 class="feature__title">Globalno</h3>
+						<p class="feature__text">Djela iz različitih djelova svijeta i iz različitih vremenskih perioda.</p>
 					</div>
 				</div>
 				<!-- end feature -->

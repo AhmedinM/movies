@@ -187,12 +187,13 @@
 						<li><a href="tel:+18002345678">+1 (800) 234-5678</a></li>
 						<li><a href="mailto:support@moviego.com">support@flixgo.com</a></li>
 					</ul>
-					<ul class="footer__social">
-						<li class="facebook"><a href="https:\\www.facebook.com"><i class="icon ion-logo-facebook"></i></a></li>
+					{{--<ul class="footer__social">
+						<li>{!! Share::load('http://www.example.com', 'Link description')->services('facebook', 'gplus', 'twitter'); !!}</li>
+						<li class="facebook"><a href="{{url('/share')}}"><i class="icon ion-logo-facebook"></i></a></li>
 						<li class="instagram"><a href="https:\\www.instagram.com"><i class="icon ion-logo-instagram"></i></a></li>
 						<li class="twitter"><a href="https:\\www.twitter.com"><i class="icon ion-logo-twitter"></i></a></li>
 						<li class="vk"><a href="https:\\www.vk.com"><i class="icon ion-logo-vk"></i></a></li>
-					</ul>
+					</ul>--}}
 				</div>
 				<!-- end footer list -->
 

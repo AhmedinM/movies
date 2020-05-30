@@ -68,6 +68,8 @@ Route::prefix('admin')->group(function() {
     Route::get('/', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
     Route::post('/', 'Auth\AdminLoginController@login')->name('admin.login.submit');
 
+    //Route::group(['middleware'=>'admin.redirect'],function(){
+
         Route::get('/panel', 'AdminController@index')->name('admin.home');
 
         Route::get('/logout', 'Auth\AdminLoginController@logout');
@@ -115,7 +117,10 @@ Route::prefix('admin')->group(function() {
     
 });
 
-
+Route::get('/share', function()
+{
+    return Share::load('http://www.example.com', 'Link description')->services('facebook', 'gplus', 'twitter');
+});
 
 Route::get('/offer', 'HomeController@offer');
 Route::post('/search', 'HomeController@search');
