@@ -115,14 +115,14 @@
 
 						<!-- share -->
 						<div class="details__share">
-							<span class="details__share-title">Podijeli sa prijateljima:</span>
+							{{--<span class="details__share-title">Podijeli sa prijateljima:</span>
 
 							<ul class="details__share-list">
 								<li class="facebook"><a href="https://www.facebook.com"><i class="icon ion-logo-facebook"></i></a></li>
 								<li class="instagram"><a href="https://www.instagram.com"><i class="icon ion-logo-instagram"></i></a></li>
 								<li class="twitter"><a href="https://www.twitter.com"><i class="icon ion-logo-twitter"></i></a></li>
 								<li class="vk"><a href="https://www.vk.com"><i class="icon ion-logo-vk"></i></a></li>
-							</ul>
+							</ul>--}}
 						</div>
 						<!-- end share -->
 					</div>
